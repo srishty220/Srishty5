@@ -7,9 +7,13 @@
     "docker-compose.yml"
   ],
   "service": "dev",
-  "features": {
-    "ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books:0.1.5": {}
-  },
+
+ "features": {
+  "ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books:0.1.5": {},
+  "ghcr.io/devcontainers/features/java:1": {
+    "version": "17"
+  }
+},
   // Uncomment workspaceFolder if the repo has been cloned to your local machine
   // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   // Features to add to the dev container. More info: https://containers.dev/features.

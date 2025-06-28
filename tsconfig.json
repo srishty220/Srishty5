@@ -5,17 +5,20 @@
 
   "compilerOptions": {
     "lib": ["es2023"],
-    "module": "es2022",
     "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "types": [
-      "vitest/importMeta"
-    ]
-  }
+
+    "types": ["vitest/importMeta"]
+  },
+  "include": ["src/**/*", "index.ts"]
 }

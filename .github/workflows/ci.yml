@@ -1,36 +1,65 @@
 name: McMasterful Books Backend CI
 
 on: 
-    push: 
-    pull_request:
+  push:
+  pull_request:
 
 jobs:
-    format_and_lint:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                node-version: '20'           
-            - run: npm install
-            - run: npm run lint
-    
-    check_types:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                node-version: '20'           
-            - run: npm install
-            - run: npm run check-types
+  format_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm run lint
 
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                node-version: '20'           
-            - run: npm install
-            - run: npm run test:ci
+  check_types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm run check-types
+
+  sdk_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: chmod +x ./generate-openapi.sh
+      - run: ./generate-openapi.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: openapi-client-sdk
+          path: client/
+
+  test:
+    runs-on: ubuntu-latest
+    needs: sdk_build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: ./generate-openapi.sh
+      - run: npm run test
+
+  test_api:
+    runs-on: ubuntu-latest
+    needs: sdk_build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: ./generate-openapi.sh
+      - run: npm run test:api

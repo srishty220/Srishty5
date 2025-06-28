@@ -1,6 +1,6 @@
 
 
-echo "⚙️  Generating OpenAPI spec and client SDK..."
+echo "Generating OpenAPI spec and client SDK..."
 
 npx tsoa spec-and-routes
 

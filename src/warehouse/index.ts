@@ -1,19 +1,24 @@
-import { type ZodRouter } from 'koa-zod-router'
-import { placeBooksOnShelfRouter } from './place_on_shelf'
-import { placeOrderRouter } from './place_order'
-import { listOrdersRouter } from './list_orders'
-import { getBookInfoRouter } from './get_book_info'
-import { fulfilOrderRouter } from './fulfil_order'
+import Router from '@koa/router'
 
-export function setupWarehouseRoutes (router: ZodRouter): void {
-  // Placing Books on Shelves
-  placeBooksOnShelfRouter(router)
+export function setupWarehouseRoutes( router: Router): void {
+  router.post('/warehouse/place', async (ctx) => {
+    // Replace with actual logic
+    ctx.body = { status: 'books placed on shelf' }
+  })
 
-  placeOrderRouter(router)
+  router.post('/orders', async (ctx) => {
+    ctx.body = { status: 'order placed' }
+  })
 
-  listOrdersRouter(router)
+  router.get('/orders', async (ctx) => {
+    ctx.body = [{ id: 'order-1', status: 'pending' }]
+  })
 
-  getBookInfoRouter(router)
+  router.get('/books/:id', async (ctx) => {
+    ctx.body = { id: ctx.params.id, info: 'Book info here' }
+  })
 
-  fulfilOrderRouter(router)
+  router.post('/orders/:id/fulfil', async (ctx) => {
+    ctx.body = { id: ctx.params.id, status: 'fulfilled' }
+  })
 }

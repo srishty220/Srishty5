@@ -1,13 +1,13 @@
 import { beforeEach, afterEach } from 'vitest'
 import { startServer } from '../src/launcher'
 
-type ApiTestContext = {
+interface ApiTestContext {
   address: string
   stop: () => void
 }
 
-export function useApiTest(): ApiTestContext {
-  const context = {} as ApiTestContext
+export function useApiTest (): ApiTestContext {
+  const context: ApiTestContext = { address: '', stop: () => {} } 
 
   beforeEach(async () => {
     const { server, url } = await startServer(0) // ✅ random port

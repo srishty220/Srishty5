@@ -1,0 +1,10 @@
+.openapi-generator-ignore
+apis/BooksApi.ts
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/BookRequest.ts
+models/BookResponse.ts
+models/SayHello200Response.ts
+models/index.ts
+runtime.ts

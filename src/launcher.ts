@@ -3,23 +3,17 @@ import cors from '@koa/cors'
 import koaBody from 'koa-bodyparser'
 import { koaSwagger } from 'koa2-swagger-ui'
 import Router from '@koa/router'
-import zodRouter from 'koa-zod-router'
 import qs from 'koa-qs'
-
 import { RegisterRoutes } from './routes/routes'
 import swagger from '../build/swagger.json'
-
 import { setupBookRoutes } from './books'
-import { setupWarehouseRoutes } from './warehouse'
+import { setupWarehouseRoutes } from './warehouse/index'
 
 import './controllers/bookController'
-import './controllers/testCheck'
 
-
-
-export async function startServer(port = 3000) {
+export async function startServer (port = 3000): Promise<{ server: any; url: string }> {
   const app = new Koa()
-  const router = zodRouter({ zodRouter: { exposeRequestErrors: true } })
+  const router = new Router()
 
   qs(app)
   app.use(cors())
@@ -28,7 +22,6 @@ export async function startServer(port = 3000) {
   setupBookRoutes(router)
   setupWarehouseRoutes(router)
 
-  // tsoa-generated routes
   RegisterRoutes(router)
 
   app.use(router.routes())
@@ -37,12 +30,12 @@ export async function startServer(port = 3000) {
   app.use(
     koaSwagger({
       routePrefix: '/docs',
-      swaggerOptions: { spec: swagger },
+      swaggerOptions: { spec: swagger as any },
       exposeSpec: true
     })
   )
 
-  return new Promise<{ server: any; url: string }>((resolve) => {
+  return new Promise((resolve) => {
     const server = app.listen(port, () => {
       const url = `http://localhost:${(server.address() as any).port}`
       console.log(`Server running at ${url}`)

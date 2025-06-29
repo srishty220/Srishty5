@@ -1,19 +1,20 @@
-import { type ZodRouter } from 'koa-zod-router'
-import booksList from './list'
-import createOrUpdateBook from './create_or_update'
-import deleteBook from './delete'
-import getBookRoute from './lookup'
+import Router from '@koa/router'
 
-export function setupBookRoutes (router: ZodRouter): void {
-  // Setup Book List Route
-  booksList(router)
+export function setupBookRoutes(router: Router): void {
+  router.get('/books', async (ctx) => {
+    ctx.body = [{ id: '1', name: 'Example Book' }]
+  })
 
-  // Setup Book Create Route
-  createOrUpdateBook(router)
+  router.post('/books', async (ctx) => {
+    const body = ctx.request.body as Record<string, unknown>
+    ctx.body = { id: 'created-id', ...body }
+  })
 
-  // Setup Book Delete Route
-  deleteBook(router)
+  router.delete('/books/:id', async (ctx) => {
+    ctx.status = 204
+  })
 
-  // Lookup Book
-  getBookRoute(router)
+  router.get('/books/:id', async (ctx) => {
+    ctx.body = { id: ctx.params.id, title: 'Book Title' }
+  })
 }

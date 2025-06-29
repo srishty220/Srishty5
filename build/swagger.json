@@ -1,0 +1,165 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"BookResponse": {
+				"description": "Response returned after a book is created or updated",
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "65bf30ccffb4d29090ecb996"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookRequest": {
+				"description": "Request body for creating or updating a book",
+				"properties": {
+					"name": {
+						"type": "string",
+						"example": "The Pragmatic Programmer"
+					},
+					"description": {
+						"type": "string",
+						"example": "A practical guide to software craftsmanship"
+					},
+					"price": {
+						"type": "number",
+						"format": "double",
+						"example": 39.99
+					},
+					"author": {
+						"type": "string",
+						"example": "Andy Hunt"
+					},
+					"image": {
+						"type": "string",
+						"example": "https://example.com/image.jpg"
+					}
+				},
+				"required": [
+					"name",
+					"description",
+					"price",
+					"author",
+					"image"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "assignment-template",
+		"version": "1.0.0",
+		"description": "This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/ping": {
+			"get": {
+				"operationId": "Ping",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/hello/{name}": {
+			"get": {
+				"operationId": "SayHello",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/books": {
+			"post": {
+				"operationId": "CreateOrUpdateBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BookResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BookRequest"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

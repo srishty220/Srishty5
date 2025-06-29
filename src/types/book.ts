@@ -1,29 +1,39 @@
-import { Example, Property } from 'tsoa'
-
+/**
+ * Request body for creating or updating a book
+ */
 export class BookRequest {
-  @Property()
-  @Example('The Pragmatic Programmer')
+  /**
+   * @example "The Pragmatic Programmer"
+   */
   name!: string
 
-  @Property()
-  @Example('A practical guide to software craftsmanship')
+  /**
+   * @example "A practical guide to software craftsmanship"
+   */
   description!: string
 
-  @Property()
-  @Example(39.99)
+  /**
+   * @example 39.99
+   */
   price!: number
 
-  @Property()
-  @Example('Andy Hunt')
+  /**
+   * @example "Andy Hunt"
+   */
   author!: string
 
-  @Property()
-  @Example('https://example.com/image.jpg')
+  /**
+   * @example "https://example.com/image.jpg"
+   */
   image!: string
 }
 
+/**
+ * Response returned after a book is created or updated
+ */
 export class BookResponse {
-  @Property()
-  @Example('65bf30ccffb4d29090ecb996')
+  /**
+   * @example "65bf30ccffb4d29090ecb996"
+   */
   id!: string
 }

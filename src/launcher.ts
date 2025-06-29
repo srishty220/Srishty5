@@ -11,7 +11,7 @@ import { setupWarehouseRoutes } from './warehouse/index'
 
 import './controllers/bookController'
 
-export async function startServer (port = 3000): Promise<{ server: any; url: string }> {
+export async function startServer (port = 3000): Promise<{ server: any, url: string }> {
   const app = new Koa()
   const router = new Router()
 
@@ -35,7 +35,7 @@ export async function startServer (port = 3000): Promise<{ server: any; url: str
     })
   )
 
-  return new Promise((resolve) => {
+  return await new Promise((resolve) => {
     const server = app.listen(port, () => {
       const url = `http://localhost:${(server.address() as any).port}`
       console.log(`Server running at ${url}`)

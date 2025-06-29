@@ -7,10 +7,10 @@ interface ApiTestContext {
 }
 
 export function useApiTest (): ApiTestContext {
-  const context: ApiTestContext = { address: '', stop: () => {} } 
+  const context: ApiTestContext = { address: '', stop: () => {} }
 
   beforeEach(async () => {
-    const { server, url } = await startServer(0) // ✅ random port
+    const { server, url } = await startServer(0)
     context.address = url
     context.stop = () => server.close()
   })

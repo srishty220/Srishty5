@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  server1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/books
+    expose:
+      - "3000"
+    depends_on:
+      - mongo
+    networks:
+      - backend
+
+  server2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/books
+    expose:
+      - "3000"
+    depends_on:
+      - mongo
+    networks:
+      - backend
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - server1
+      - server2
+    networks:
+      - backend
+
+networks:
+  backend:

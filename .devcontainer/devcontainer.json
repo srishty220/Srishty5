@@ -12,7 +12,9 @@
   "ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books:0.1.5": {},
   "ghcr.io/devcontainers/features/java:1": {
     "version": "17"
-  }
+  },
+  "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+
 },
   // Uncomment workspaceFolder if the repo has been cloned to your local machine
   // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",

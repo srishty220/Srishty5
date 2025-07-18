@@ -1,14 +1,20 @@
 {
   "entryFile": "src/launcher.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/controllers/*.ts"],
+  "controllerPathGlobs": ["services/**/src/controllers/*.ts"],
   "spec": {
     "outputDirectory": "build",
-    "specVersion": 3
+    "specVersion": 3,
+    "basePath": ""
   },
   "routes": {
     "middleware": "koa",
-    "basePath": "",
     "routesDir": "src/routes"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   }
 }

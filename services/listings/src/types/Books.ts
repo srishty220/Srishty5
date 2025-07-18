@@ -1,7 +1,6 @@
-/**
- * Request body for creating or updating a book
- */
 export class BookRequest {
+  id?: string
+
   /**
    * @example "The Pragmatic Programmer"
    */
@@ -28,9 +27,6 @@ export class BookRequest {
   image!: string
 }
 
-/**
- * Response returned after a book is created or updated
- */
 export class BookResponse {
   /**
    * @example "65bf30ccffb4d29090ecb996"

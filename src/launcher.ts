@@ -2,25 +2,29 @@ import Koa from 'koa'
 import cors from '@koa/cors'
 import koaBody from 'koa-bodyparser'
 import { koaSwagger } from 'koa2-swagger-ui'
-import Router from '@koa/router'
-import qs from 'koa-qs'
-import { RegisterRoutes } from './routes/routes'
+import { zodRouter } from 'koa-zod-router'
 import swagger from '../build/swagger.json'
-import { setupBookRoutes } from './books'
-import { setupWarehouseRoutes } from './warehouse/index'
 
-import './controllers/bookController'
+import { RegisterRoutes } from './routes/routes'
+import { setupBookRoutes } from '../services/listings/src'
+import { setupWarehouseRoutes } from '../services/warehouse/src'
+import { setupOrderRoutes } from '../services/orders/src'
 
-export async function startServer (port = 3000): Promise<{ server: any, url: string }> {
+// tsoa controllers
+import '../services/listings/src/controllers/bookController'
+import '../services/listings/src/controllers/helloController'
+import '../services/listings/src/controllers/testCheck'
+
+export async function startServer (port = 3001): Promise<{ server: any, url: string }> {
   const app = new Koa()
-  const router = new Router()
+  const router = zodRouter()
 
-  qs(app)
   app.use(cors())
   app.use(koaBody())
 
   setupBookRoutes(router)
   setupWarehouseRoutes(router)
+  setupOrderRoutes(router)
 
   RegisterRoutes(router)
 

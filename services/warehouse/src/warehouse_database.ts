@@ -1,8 +1,8 @@
 import { ObjectId, type Collection, type Db } from 'mongodb'
-import { type BookID, type OrderId, type ShelfId } from '../../adapter/assignment-4'
-import { client } from '../database_access'
+import { type BookID, type OrderId, type ShelfId } from '../../../adapter/assignment-4'
+import { getBookDatabase, client } from '../../../shared/database_access'
 import { type WarehouseData, InMemoryWarehouse } from './warehouse_data'
-import { generateId, seedWarehouseDatabase } from '../../database_test_utilities'
+import { generateId, seedWarehouseDatabase } from '../../../database_test_utilities'
 
 export interface WarehouseDatabaseAccessor {
   database: Db
@@ -31,8 +31,13 @@ export class DatabaseWarehouse implements WarehouseData {
   }
 
   async placeBookOnShelf (book: string, shelf: string, count: number): Promise<void> {
-    await this.accessor.books.insertOne({ book, shelf, count })
-  }
+  await this.accessor.books.updateOne(
+    { book, shelf },
+    { $set: { count } },
+    { upsert: true }
+  )
+}
+
 
   async getCopiesOnShelf (book: string, shelf: string): Promise<number> {
     const result = await this.accessor.books.findOne({ book, shelf })
@@ -54,14 +59,22 @@ export class DatabaseWarehouse implements WarehouseData {
     return copies
   }
 
-  async getOrder (order: OrderId): Promise<Record<BookID, number> | false> {
+  async getOrder(order: OrderId): Promise<Record<BookID, number> | false> {
+  try {
     const result = await this.accessor.orders.findOne({ _id: ObjectId.createFromHexString(order) })
     return result !== null ? result.books : false
+  } catch (e) {
+    return false
   }
+}
 
-  async removeOrder (order: OrderId): Promise<void> {
+async removeOrder(order: OrderId): Promise<void> {
+  try {
     await this.accessor.orders.deleteOne({ _id: ObjectId.createFromHexString(order) })
-  }
+  } catch (e) {
+    }
+}
+
 
   async listOrders (): Promise<Array<{ orderId: OrderId, books: Record<BookID, number> }>> {
     const result = await this.accessor.orders.find().toArray()

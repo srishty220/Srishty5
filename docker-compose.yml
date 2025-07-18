@@ -1,36 +1,74 @@
 version: "3.9"
 
 services:
-  server1:
+  listings:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./services/listings
     environment:
-      - MONGO_URL=mongodb://mongo:27017/books
+      - MONGO_URL=mongodb://mongo-listings:27017/listings
+      - RABBITMQ_URL=amqp://rabbitmq
     expose:
       - "3000"
     depends_on:
-      - mongo
+      - mongo-listings
+      - rabbitmq
     networks:
       - backend
 
-  server2:
+  warehouse:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./services/warehouse
     environment:
-      - MONGO_URL=mongodb://mongo:27017/books
+      - MONGO_URL=mongodb://mongo-warehouse:27017/warehouse
+      - RABBITMQ_URL=amqp://rabbitmq
     expose:
       - "3000"
     depends_on:
-      - mongo
+      - mongo-warehouse
+      - rabbitmq
     networks:
       - backend
 
-  mongo:
-    image: mongo
+  orders:
+    build:
+      context: ./services/orders
+    environment:
+      - MONGO_URL=mongodb://mongo-orders:27017/orders
+      - RABBITMQ_URL=amqp://rabbitmq
+    expose:
+      - "3000"
+    depends_on:
+      - mongo-orders
+      - rabbitmq
+    networks:
+      - backend
+
+  mongo-listings:
+    image: mongo:latest
     ports:
       - "27017:27017"
+    networks:
+      - backend
+
+  mongo-warehouse:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    networks:
+      - backend
+
+  mongo-orders:
+    image: mongo:latest
+    ports:
+      - "27019:27017"
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - backend
 
@@ -41,8 +79,9 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - server1
-      - server2
+      - listings
+      - warehouse
+      - orders
     networks:
       - backend
 

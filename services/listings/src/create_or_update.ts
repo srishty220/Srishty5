@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { type ZodRouter } from 'koa-zod-router'
-import { getBookDatabase } from '../database_access'
+
+import { getBookDatabase, client } from '../../../shared/database_access'
 import { ObjectId } from 'mongodb'
 
 export default function createOrUpdateBook (router: ZodRouter): void {

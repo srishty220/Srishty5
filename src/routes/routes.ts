@@ -4,11 +4,11 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import { fetchMiddlewares, KoaTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { PingController } from './../controllers/testCheck';
+import { PingController } from './../../services/listings/src/controllers/testCheck';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { HelloController } from './../controllers/helloController';
+import { HelloController } from './../../services/listings/src/controllers/helloController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { BookController } from './../controllers/bookController';
+import { BookController } from './../../services/listings/src/controllers/bookController';
 import type { Context, Next, Middleware, Request as KRequest, Response as KResponse } from 'koa';
 import type * as KoaRouter from '@koa/router';
 

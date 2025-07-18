@@ -8,7 +8,6 @@
 		"responses": {},
 		"schemas": {
 			"BookResponse": {
-				"description": "Response returned after a book is created or updated",
 				"properties": {
 					"id": {
 						"type": "string",
@@ -22,7 +21,6 @@
 				"additionalProperties": false
 			},
 			"BookRequest": {
-				"description": "Request body for creating or updating a book",
 				"properties": {
 					"name": {
 						"type": "string",

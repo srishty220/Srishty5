@@ -1,6 +1,6 @@
 import { type ZodRouter } from 'koa-zod-router'
-import { type ShelfId, type BookID, type OrderId } from '../../adapter/assignment-4'
-import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouse_data'
+import { type ShelfId, type BookID, type OrderId } from '../../../adapter/assignment-4'
+import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from '../../warehouse/src/warehouse_data'
 import { z } from 'zod'
 
 async function fulfilOrder (data: WarehouseData, orderId: OrderId, booksFulfilled: Array<{ book: BookID, shelf: ShelfId, numberOfBooks: number }>): Promise<void> {
@@ -63,8 +63,10 @@ export function fulfilOrderRouter (router: ZodRouter): void {
         ctx.status = 200
         return await next()
       } catch (e) {
-        ctx.status = 500
-        return await next()
+         console.error('❌ Fulfilment error:', e)
+  ctx.status = 500
+  ctx.body = { error: 'Internal Server Error', details: (e as Error).message }
+  return await next()
       }
     }
   })

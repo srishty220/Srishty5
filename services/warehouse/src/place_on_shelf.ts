@@ -1,5 +1,5 @@
 import { type ZodRouter } from 'koa-zod-router'
-import { type ShelfId, type BookID } from '../../adapter/assignment-4'
+import { type ShelfId, type BookID } from '../../../adapter/assignment-4'
 import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouse_data'
 import { z } from 'zod'
 
